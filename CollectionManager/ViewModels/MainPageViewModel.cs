@@ -1,4 +1,5 @@
 ﻿using CollectionManager.Models;
+using CollectionManager.Services;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using System;
@@ -17,10 +18,13 @@ namespace CollectionManager.ViewModels
         public ObservableCollection<CollectionItemViewModel> Collections { get; } = new();
         public IAsyncRelayCommand<CollectionItemViewModel> GoToCollectionCommand { get; set; }
 
+
         public MainPageViewModel()
         {
             NewCollectionCommand = new AsyncRelayCommand(NewCollectionAsync);
             GoToCollectionCommand = new AsyncRelayCommand<CollectionItemViewModel>(GoToCollectionAsync);
+            DataManager.LoadData(Collections);
+            DataManager.Initialize(Collections);
         }
 
         private async Task NewCollectionAsync()
@@ -38,6 +42,8 @@ namespace CollectionManager.ViewModels
 
             var newCollection = new Collection(collectionName);
             Collections.Add(new CollectionItemViewModel(newCollection));
+
+            DataManager.SaveData();
         }
 
         private async Task GoToCollectionAsync(CollectionItemViewModel selectedCollection)

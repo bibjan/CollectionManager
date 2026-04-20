@@ -1,5 +1,6 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
+using CollectionManager.Services;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -44,6 +45,8 @@ namespace CollectionManager.ViewModels
             {
                 await Shell.Current.DisplayAlert("Błąd", $"Nie udało się zmienić zdjęcia: {ex.Message}", "OK");
             }
+
+            DataManager.SaveData();
         }
 
         public async Task CollectionSummaryAsync()
@@ -112,6 +115,8 @@ namespace CollectionManager.ViewModels
                     await Shell.Current.DisplayAlert("Błąd", $"Nie udało się dodać zdjęcia: {ex.Message}", "OK");
                 }
             }
+
+            DataManager.SaveData();
         }
 
         private async Task EditItemAsync(Item selectedItem)
@@ -129,6 +134,8 @@ namespace CollectionManager.ViewModels
             {
                 selectedItem.Name = newName;
             }
+
+            DataManager.SaveData();
         }
 
         partial void OnSelectedCollectionChanged(CollectionItemViewModel value)
@@ -155,6 +162,8 @@ namespace CollectionManager.ViewModels
 
         private void OnItemPropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
         {
+            DataManager.SaveData();
+
             if (e.PropertyName == nameof(Item.Status) && sender is Item item)
             {
                 if (item.Status == "Sprzedany")
