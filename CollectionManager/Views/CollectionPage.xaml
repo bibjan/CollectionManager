@@ -1,0 +1,123 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:ViewModels="clr-namespace:CollectionManager.ViewModels"
+             x:Class="CollectionManager.Views.CollectionPage"
+             xmlns:Models="clr-namespace:CollectionManager.Models"
+             BackgroundColor="#1f1f1f"
+             Title="CollectionPage">
+    
+    <ContentPage.BindingContext>
+        <ViewModels:CollectionPageViewModel />
+    </ContentPage.BindingContext>
+
+    <ContentPage.ToolbarItems>
+        <ToolbarItem Text="Podsumowanie kolekcji"
+                     Command="{Binding CollectionSummaryCommand}"
+                     IconImageSource="{FontImage Glyph='📄', Size=22, Color=White}" />
+        <ToolbarItem Text="Dodaj przedmiot"
+                     Command="{Binding NewItemCommand}"
+                     IconImageSource="{FontImage Glyph='+', Size=22, Color=White}" />
+    </ContentPage.ToolbarItems>
+
+    <VerticalStackLayout>
+        <Label 
+            Text="{Binding SelectedCollection.Name}"
+            VerticalOptions="Center" 
+            HorizontalOptions="Center" 
+            FontSize="38"
+            FontAttributes="Bold"
+            Margin="0, 0, 0, 35"/>
+
+        <CollectionView ItemsSource="{Binding SelectedCollection.Items}"
+                        Margin="25">
+            <CollectionView.ItemTemplate>
+
+                <DataTemplate>
+                    <Border StrokeShape="RoundRectangle 10" 
+                            Stroke="#5B63FC"
+                            StrokeThickness="3"
+                            BackgroundColor="#858BFF"
+                            Opacity="{Binding ItemOpacity}" 
+                            Padding="10"
+                            Margin="10, 5">
+
+                        <Grid ColumnDefinitions="Auto, *, Auto, Auto, Auto, Auto, Auto, Auto, Auto" ColumnSpacing="10">
+
+                            <Grid Grid.Column="0" WidthRequest="100" HeightRequest="100" VerticalOptions="Center">
+
+                                <Image Source="{Binding ImagePath}" 
+                                     Aspect="AspectFill" />
+
+                                <ImageButton Command="{Binding Source={RelativeSource AncestorType={x:Type ViewModels:CollectionPageViewModel}}, Path=EditImageCommand}"
+                                           CommandParameter="{Binding .}"
+                                           Source="{FontImage Glyph='📷', Size=16, Color=White}"
+                                           CornerRadius="15"
+                                           WidthRequest="30"
+                                           HeightRequest="30"
+                                           HorizontalOptions="End"
+                                           VerticalOptions="Start"
+                                           Margin="1" />
+                            </Grid>
+
+                            <Label Grid.Column="1" 
+                                   Text="{Binding Name}" 
+                                   FontSize="25" 
+                                   VerticalOptions="Center" 
+                                   HorizontalOptions="Start"
+                                   TextColor="Black"/>
+
+
+                            <Label Grid.Column="2" 
+                                   Text="Ocena" 
+                                   FontSize="16" 
+                                   VerticalOptions="Center" 
+                                   TextColor="Black"/>
+                            
+                            <Entry Grid.Column="3" 
+                                   MaxLength="2"
+                                   Keyboard="Numeric"
+                                   VerticalOptions="Center"
+                                   Text="{Binding Rating}" />
+
+
+                            <Label Grid.Column="4" 
+                                   Text="Cena" 
+                                   FontSize="16" 
+                                   VerticalOptions="Center" 
+                                   TextColor="Black"/>
+
+                            <Entry Grid.Column="5" 
+                                   Keyboard="Numeric"
+                                   VerticalOptions="Center"
+                                   Text="{Binding Price}" />
+
+                            <Label Grid.Column="6" 
+                                   Text="Status" 
+                                   FontSize="16" 
+                                   VerticalOptions="Center" 
+                                   TextColor="Black"/>
+
+                            <Picker Grid.Column="7"
+                                    ItemsSource="{x:Static Models:Item.AvailableStatuses}"
+                                    SelectedItem="{Binding Status}"
+                                    VerticalOptions="Center"
+                                    TextColor="Black" />
+
+                            <ImageButton Grid.Column="8" 
+                                         Command="{Binding Source={RelativeSource AncestorType={x:Type ViewModels:CollectionPageViewModel}}, Path=EditItemCommand}"
+                                         CommandParameter="{Binding .}"
+                                         Source="{FontImage Glyph='✎', Size=20, Color=Black}"
+                                         BackgroundColor="Transparent"
+                                         WidthRequest="30"
+                                         HeightRequest="30"
+                                         VerticalOptions="Center" />
+
+                        </Grid>
+                    </Border>
+                </DataTemplate>
+
+            </CollectionView.ItemTemplate>
+        </CollectionView>
+    </VerticalStackLayout>
+</ContentPage>

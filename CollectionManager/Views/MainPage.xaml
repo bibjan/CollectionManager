@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="CollectionManager.Views.MainPage"
+             xmlns:ViewModels="clr-namespace:CollectionManager.ViewModels"
+             BackgroundColor="#1f1f1f"
+             Title="MainPage">
+
+    <ContentPage.BindingContext>
+        <ViewModels:MainPageViewModel />
+    </ContentPage.BindingContext>
+
+    <ContentPage.ToolbarItems>
+        <ToolbarItem Text="Dodaj kolekcje"
+                     Command="{Binding NewCollectionCommand}"
+                     IconImageSource="{FontImage Glyph='+', Size=22, Color=White}" />
+    </ContentPage.ToolbarItems>
+    <Grid Margin="20">
+        <CollectionView ItemsSource="{Binding Collections}">
+
+            <CollectionView.ItemsLayout>
+                <LinearItemsLayout Orientation="Vertical" ItemSpacing="15" />
+            </CollectionView.ItemsLayout>
+
+            <CollectionView.ItemTemplate>
+                <DataTemplate x:DataType="ViewModels:CollectionItemViewModel">
+
+                    <Border StrokeShape="RoundRectangle 10" 
+                            Stroke="#5B63FC"
+                            StrokeThickness="3"
+                            BackgroundColor="#858BFF"
+                            Padding="20">
+
+                        <Border.GestureRecognizers>
+                            <TapGestureRecognizer 
+                              Command="{Binding Source={RelativeSource AncestorType={x:Type ViewModels:MainPageViewModel}}, Path=GoToCollectionCommand}"
+                              CommandParameter="{Binding .}" />
+                        </Border.GestureRecognizers>
+
+                        <Label Text="{Binding Name}" 
+                               FontSize="30" 
+                               FontAttributes="Bold" 
+                               HorizontalOptions="Center" 
+                               VerticalOptions="Center" 
+                               TextColor="Black"/>
+
+                    </Border>
+
+                </DataTemplate>
+            </CollectionView.ItemTemplate>
+        </CollectionView>
+    </Grid>
+</ContentPage>
