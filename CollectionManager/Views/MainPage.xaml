@@ -4,7 +4,7 @@
              x:Class="CollectionManager.Views.MainPage"
              xmlns:ViewModels="clr-namespace:CollectionManager.ViewModels"
              BackgroundColor="#1f1f1f"
-             Title="MainPage">
+             Title="Kolekcje">
 
     <ContentPage.BindingContext>
         <ViewModels:MainPageViewModel />

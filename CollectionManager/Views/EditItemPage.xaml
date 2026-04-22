@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:ViewModels="clr-namespace:CollectionManager.ViewModels"
+             xmlns:Models="clr-namespace:CollectionManager.Models"
+             x:Class="CollectionManager.Views.EditItemPage"
+             BackgroundColor="#1f1f1f"
+             Title="Edycja przedmiotu">
+
+    <ContentPage.BindingContext>
+        <ViewModels:EditItemViewModel />
+    </ContentPage.BindingContext>
+
+    <VerticalStackLayout Spacing="15" Margin="20">
+
+        <Image Source="{Binding SelectedItem.ImagePath}" 
+               WidthRequest="150" 
+               HeightRequest="150" 
+               Aspect="AspectFill" />
+
+        <Button Text="Zmień zdjęcie" 
+                Command="{Binding EditImageCommand}" />
+
+        <Label Text="Nazwa:" 
+               TextColor="White" />
+        <Entry Text="{Binding SelectedItem.Name}" 
+               BackgroundColor="White"
+               TextColor="Black" />
+
+        <Label Text="Ocena (1-10):" 
+               TextColor="White" />
+        <Entry Text="{Binding SelectedItem.Rating}"
+               Keyboard="Numeric" BackgroundColor="White" 
+               TextColor="Black" 
+               MaxLength="2" />
+
+        <Label Text="Cena (PLN):" 
+               TextColor="White" />
+        <Entry Text="{Binding SelectedItem.Price}" 
+               Keyboard="Numeric" 
+               BackgroundColor="White" 
+               TextColor="Black" />
+
+        <Label Text="Status:" 
+               TextColor="White" />
+        <Picker ItemsSource="{x:Static Models:Item.AvailableStatuses}" 
+                SelectedItem="{Binding SelectedItem.Status}" 
+                BackgroundColor="White" TextColor="Black" />
+
+        <Grid ColumnDefinitions="*, *" 
+              ColumnSpacing="10" 
+              Margin="0, 20, 0, 0">
+            <Button Grid.Column="0" 
+                    Text="Anuluj" 
+                    Command="{Binding CancelCommand}" 
+                    BackgroundColor="Red" 
+                    TextColor="White"/>
+
+            <Button Grid.Column="1" 
+                    Text="Zapisz" 
+                    Command="{Binding SaveCommand}" 
+                    BackgroundColor="#5B63FC" 
+                    TextColor="White"/>
+        </Grid>
+    </VerticalStackLayout>
+</ContentPage>

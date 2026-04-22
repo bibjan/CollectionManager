@@ -5,7 +5,7 @@
              x:Class="CollectionManager.Views.CollectionPage"
              xmlns:Models="clr-namespace:CollectionManager.Models"
              BackgroundColor="#1f1f1f"
-             Title="CollectionPage">
+             Title="Kolekcja">
     
     <ContentPage.BindingContext>
         <ViewModels:CollectionPageViewModel />
@@ -42,23 +42,14 @@
                             Padding="10"
                             Margin="10, 5">
 
-                        <Grid ColumnDefinitions="Auto, *, Auto, Auto, Auto, Auto, Auto, Auto, Auto" ColumnSpacing="10">
+                        <Grid ColumnDefinitions="Auto, *, Auto, Auto, Auto, Auto, Auto, Auto, Auto, Auto" ColumnSpacing="10">
 
-                            <Grid Grid.Column="0" WidthRequest="100" HeightRequest="100" VerticalOptions="Center">
-
-                                <Image Source="{Binding ImagePath}" 
-                                     Aspect="AspectFill" />
-
-                                <ImageButton Command="{Binding Source={RelativeSource AncestorType={x:Type ViewModels:CollectionPageViewModel}}, Path=EditImageCommand}"
-                                           CommandParameter="{Binding .}"
-                                           Source="{FontImage Glyph='📷', Size=16, Color=White}"
-                                           CornerRadius="15"
-                                           WidthRequest="30"
-                                           HeightRequest="30"
-                                           HorizontalOptions="End"
-                                           VerticalOptions="Start"
-                                           Margin="1" />
-                            </Grid>
+                            <Image Grid.Column="0"
+                                   Source="{Binding ImagePath}" 
+                                   WidthRequest="100" 
+                                   HeightRequest="100" 
+                                   Aspect="AspectFill" 
+                                   VerticalOptions="Center" />
 
                             <Label Grid.Column="1" 
                                    Text="{Binding Name}" 
@@ -73,24 +64,27 @@
                                    FontSize="16" 
                                    VerticalOptions="Center" 
                                    TextColor="Black"/>
-                            
-                            <Entry Grid.Column="3" 
-                                   MaxLength="2"
-                                   Keyboard="Numeric"
+
+                            <Label Grid.Column="3" 
+                                   Text="{Binding Rating}" 
+                                   FontSize="16"
+                                   FontAttributes="Bold"
                                    VerticalOptions="Center"
-                                   Text="{Binding Rating}" />
+                                   TextColor="Black" />
 
 
                             <Label Grid.Column="4" 
-                                   Text="Cena" 
+                                   Text="Cena (PLN)" 
                                    FontSize="16" 
                                    VerticalOptions="Center" 
                                    TextColor="Black"/>
 
-                            <Entry Grid.Column="5" 
-                                   Keyboard="Numeric"
+                            <Label Grid.Column="5" 
+                                   Text="{Binding Price}"
+                                   FontSize="16"
+                                   FontAttributes="Bold"
                                    VerticalOptions="Center"
-                                   Text="{Binding Price}" />
+                                   TextColor="Black" />
 
                             <Label Grid.Column="6" 
                                    Text="Status" 
@@ -98,20 +92,30 @@
                                    VerticalOptions="Center" 
                                    TextColor="Black"/>
 
-                            <Picker Grid.Column="7"
-                                    ItemsSource="{x:Static Models:Item.AvailableStatuses}"
-                                    SelectedItem="{Binding Status}"
-                                    VerticalOptions="Center"
-                                    TextColor="Black" />
+                            <Label Grid.Column="7"
+                                   Text="{Binding Status}"
+                                   FontSize="16"
+                                   FontAttributes="Bold"
+                                   VerticalOptions="Center"
+                                   TextColor="Black" />
 
-                            <ImageButton Grid.Column="8" 
-                                         Command="{Binding Source={RelativeSource AncestorType={x:Type ViewModels:CollectionPageViewModel}}, Path=EditItemCommand}"
-                                         CommandParameter="{Binding .}"
-                                         Source="{FontImage Glyph='✎', Size=20, Color=Black}"
-                                         BackgroundColor="Transparent"
-                                         WidthRequest="30"
-                                         HeightRequest="30"
-                                         VerticalOptions="Center" />
+                            <Button Grid.Column="8" 
+                                    Text="Edytuj"
+                                    Command="{Binding Source={RelativeSource AncestorType={x:Type ViewModels:CollectionPageViewModel}}, Path=EditItemCommand}"
+                                    CommandParameter="{Binding .}"
+                                    BackgroundColor="Orange"
+                                    WidthRequest="80"
+                                    HeightRequest="30"
+                                    VerticalOptions="Center" />
+
+                            <Button Grid.Column="9" 
+                                    Command="{Binding Source={RelativeSource AncestorType={x:Type ViewModels:CollectionPageViewModel}}, Path=DeleteItemCommand}"
+                                    CommandParameter="{Binding .}"
+                                    Text="Usuń"
+                                    BackgroundColor="Red"
+                                    WidthRequest="80"
+                                    HeightRequest="30"
+                                    VerticalOptions="Center" />
 
                         </Grid>
                     </Border>

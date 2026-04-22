@@ -20,6 +20,7 @@ namespace CollectionManager.ViewModels
         public IAsyncRelayCommand CollectionSummaryCommand { get; set; }
         public IAsyncRelayCommand<Item> EditItemCommand { get; set; }
         public IAsyncRelayCommand<Item> EditImageCommand { get; set; }
+        public IAsyncRelayCommand<Item> DeleteItemCommand { get; set; }
 
         public CollectionPageViewModel()
         {
@@ -27,6 +28,23 @@ namespace CollectionManager.ViewModels
             EditItemCommand = new AsyncRelayCommand<Item>(EditItemAsync);
             CollectionSummaryCommand = new AsyncRelayCommand(CollectionSummaryAsync);
             EditImageCommand = new AsyncRelayCommand<Item>(EditImageAsync);
+            DeleteItemCommand = new AsyncRelayCommand<Item>(DeleteItemAsync);
+        }
+
+        private async Task DeleteItemAsync(Item selectedItem)
+        {
+            if (selectedItem == null) return;
+
+            bool confirm = await Shell.Current.DisplayAlert("Usuwanie",
+                $"Czy na pewno chcesz usunąć przedmiot '{selectedItem.Name}' z tej kolekcji?",
+                "Tak",
+                "Nie");
+
+            if (confirm)
+            {
+                SelectedCollection.Items.Remove(selectedItem);
+                DataManager.SaveData();
+            }
         }
 
         private async Task EditImageAsync(Item selectedItem)
@@ -122,20 +140,16 @@ namespace CollectionManager.ViewModels
         private async Task EditItemAsync(Item selectedItem)
         {
             if (selectedItem == null)
-                return;
-
-            var input = await Shell.Current.DisplayPromptAsync("Edycja przedmiotu",
-                 "Wprowadź nową nazwę:",
-                 "Zapisz",
-                 "Anuluj");
-            var newName = input?.Trim();
-
-            if (!string.IsNullOrWhiteSpace(newName))
             {
-                selectedItem.Name = newName;
+                return;
             }
 
-            DataManager.SaveData();
+            var navigationParameter = new Dictionary<string, object>
+            {
+                { "SelectedItem", selectedItem }
+            };
+
+            await Shell.Current.GoToAsync("ItemEditPage", navigationParameter);
         }
 
         partial void OnSelectedCollectionChanged(CollectionItemViewModel value)
