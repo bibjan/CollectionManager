@@ -14,9 +14,9 @@ namespace CollectionManager.ViewModels
     {
         private Collection _collection;
 
-        public string Name => _collection?.Name;
+        public string Name => _collection.Name;
 
-        public ObservableCollection<Item> Items { get; } = new ObservableCollection<Item>();
+        public ObservableCollection<Item> Items => _collection.Items;
 
         public CollectionItemViewModel(Collection collection)
         {
